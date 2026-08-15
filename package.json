@@ -1,7 +1,7 @@
 {
   "name": "samples",
   "private": true,
-  "homepage": "https://setloth.github.io/SampleBreakdown",
+  "homepage": "https://setloth.github.io/SampleBreakdown/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
