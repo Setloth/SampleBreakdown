@@ -1,12 +1,12 @@
 {
   "name": "samples",
   "private": true,
-  "homepage": "setloth.github.io/samples",
+  "homepage": "https://setloth.github.io/SampleBreakdown",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d .",
+    "predeploy": "rm -rf node_modules/.cache/gh-pages && npm run build",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
