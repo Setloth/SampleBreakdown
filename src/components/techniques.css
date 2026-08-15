@@ -1,0 +1,35 @@
+
+#techniques > p {
+  text-align: center;
+  color: var(--sbs-ink-dim);
+  line-height: 1.7;
+  max-width: 620px;
+  margin: 0 auto 16px;
+}
+#techniques section {
+  margin-top: 56px;
+}
+#techniques section > p {
+  text-align: left;
+  color: var(--sbs-ink-dim);
+  margin-bottom: 24px;
+}
+
+.case-study {
+  margin-bottom: 40px;
+}
+.case-study h3 {
+  font-family: var(--sbs-font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--sbs-paper);
+  margin: 0 0 16px;
+}
+.sample-role-label {
+  font-family: var(--sbs-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sbs-amber);
+  margin: 20px 0 6px;
+}

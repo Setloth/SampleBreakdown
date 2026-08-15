@@ -1,0 +1,44 @@
+.pgl-root {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  max-width: 480px;
+  margin: 0 auto 20px;
+}
+.pgl-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pgl-eyebrow {
+  font-family: var(--sbs-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sbs-amber);
+}
+.pgl-clips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pgl-clip {
+  font-family: var(--sbs-font-mono);
+  font-size: 12px;
+  background: var(--sbs-panel);
+  border: 1px solid var(--sbs-line);
+  color: var(--sbs-ink);
+  padding: 6px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.pgl-clip:hover {
+  border-color: var(--sbs-amber);
+  color: var(--sbs-paper);
+}
+.pgl-clip-active {
+  border-color: var(--sbs-amber);
+  color: var(--sbs-amber);
+  background: rgba(232, 163, 61, 0.1);
+}

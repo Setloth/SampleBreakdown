@@ -1,0 +1,463 @@
+/* ---------------------------------------------------------------------------
+   Sample Breakdown — shared theme tokens & component styles.
+   Import this once at your app root:  import "./sample-breakdown.css";
+
+   The --sbs-* custom properties on :root are meant to be reused elsewhere on
+   your page (headings, links, callouts). See the note at the bottom of this
+   file about splitting tokens out if you fold this into a global stylesheet.
+--------------------------------------------------------------------------- */
+
+:root {
+  --sbs-bg: #16140f;
+  --sbs-panel: #1d1a13;
+  --sbs-paper: #ece4d3;
+  --sbs-ink: #efe9db;
+  --sbs-ink-dim: #a89f8a;
+  --sbs-amber: #e8a33d;
+  --sbs-rust: #c1453a;
+  --sbs-line: #38332777;
+
+  --sbs-font-display: 'Oswald', 'Arial Narrow', sans-serif;
+  --sbs-font-mono: 'Space Mono', 'Courier New', monospace;
+}
+
+.sbs-card {
+  font-family: var(--sbs-font-mono);
+  background: var(--sbs-bg);
+  color: var(--sbs-ink);
+  padding: 20px;
+  border-radius: 6px;
+  max-width: 920px;
+  margin: 32px auto;
+}
+.sbs-card * { box-sizing: border-box; }
+
+.sbs-grid {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  align-items: stretch;
+}
+
+.sbs-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.sbs-connector-line {
+  width: 100%;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--sbs-amber) 0 6px, transparent 6px 11px);
+}
+.sbs-connector-arrow { color: var(--sbs-amber); font-size: 14px; }
+
+.sbs-panel {
+  background: var(--sbs-panel);
+  border: 1px solid var(--sbs-line);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 220px;
+}
+.sbs-panel-head { display: flex; justify-content: space-between; align-items: center; }
+.sbs-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--sbs-amber);
+  text-transform: uppercase;
+}
+.sbs-filename {
+  font-size: 10px;
+  color: var(--sbs-ink-dim);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sbs-drop {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px dashed var(--sbs-line);
+  border-radius: 4px;
+  color: var(--sbs-ink-dim);
+  font-size: 12px;
+  text-align: center;
+  padding: 24px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.sbs-drop:hover { border-color: var(--sbs-amber); color: var(--sbs-paper); }
+.sbs-drop-compact { padding: 14px 12px; }
+
+.sbs-wave-container {
+  position: relative;
+  height: 100px;
+  background: #100e0a;
+  border-radius: 3px;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+.sbs-wave-container:active { cursor: grabbing; }
+.sbs-wave-svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+.sbs-bar { fill: #5c5646; }
+.sbs-bar-active { fill: var(--sbs-amber); }
+
+.sbs-region {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: rgba(232, 163, 61, 0.1);
+  border-left: 1px solid var(--sbs-rust);
+  border-right: 1px solid var(--sbs-rust);
+  pointer-events: none;
+}
+.sbs-region-loop {
+  background-image: repeating-linear-gradient(
+    45deg, rgba(193, 69, 58, 0.18) 0 6px, rgba(232, 163, 61, 0.1) 6px 12px
+  );
+}
+.sbs-region-active { animation: sbs-marching 0.9s linear infinite; }
+@keyframes sbs-marching {
+  from { background-position: 0 0; }
+  to { background-position: 17px 0; }
+}
+
+.sbs-playhead {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: var(--sbs-paper);
+  box-shadow: 0 0 4px rgba(239, 233, 219, 0.8);
+  pointer-events: none;
+}
+
+.sbs-handle {
+  position: absolute;
+  top: -8px;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%);
+  cursor: ew-resize;
+  z-index: 2;
+}
+.sbs-handle-mark {
+  width: 14px;
+  height: 14px;
+  background: var(--sbs-rust);
+  border-radius: 2px;
+  border: 1px solid var(--sbs-bg);
+}
+
+.sbs-marker-pin {
+  position: absolute;
+  top: -14px;
+  transform: translateX(-50%);
+  background: var(--sbs-paper);
+  color: var(--sbs-bg);
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  padding: 0;
+}
+.sbs-marker-pin:hover { background: var(--sbs-amber); }
+
+.sbs-overview {
+  position: relative;
+  height: 28px;
+  background: #100e0a;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.sbs-overview-svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+.sbs-overview-window {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border: 1px solid var(--sbs-amber);
+  background: rgba(232, 163, 61, 0.15);
+  pointer-events: none;
+  transition: left 0.1s ease, width 0.1s ease;
+}
+.sbs-overview-loop {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background: var(--sbs-rust);
+  pointer-events: none;
+}
+
+.sbs-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sbs-controls-center { justify-content: center; }
+.sbs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--sbs-line);
+  color: var(--sbs-ink);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.sbs-btn:hover { border-color: var(--sbs-amber); color: var(--sbs-paper); }
+.sbs-btn-primary { background: var(--sbs-amber); color: var(--sbs-bg); border-color: var(--sbs-amber); font-weight: 700; }
+.sbs-btn-primary:hover { background: #f0b25a; }
+.sbs-btn-active { border-color: var(--sbs-rust); color: var(--sbs-rust); }
+.sbs-btn-icon { padding: 8px 10px; }
+.sbs-time { font-size: 11px; color: var(--sbs-ink-dim); margin-left: auto; }
+
+.sbs-loop-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sbs-rust);
+  animation: sbs-pulse 1s ease-in-out infinite;
+}
+@keyframes sbs-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+.sbs-panel-record { align-items: center; text-align: center; }
+.sbs-panel-record .sbs-panel-head { width: 100%; }
+.sbs-record-stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 130px;
+}
+.sbs-vinyl {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #2a261d 0 8%, #0c0b08 9% 30%, #211d15 31% 32%, #0c0b08 33% 55%, #211d15 56% 57%, #0c0b08 58% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.sbs-vinyl-spin { animation: sbs-spin 2.6s linear infinite; }
+@keyframes sbs-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.sbs-vinyl-label {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--sbs-amber);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sbs-bg);
+  pointer-events: none;
+}
+.sbs-record-disc {
+  position: relative;
+  width: 110px;
+  height: 110px;
+}
+.sbs-tonearm-assembly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+.sbs-tonearm-lifted { transform: translate(4px, -10px); }
+.sbs-tonearm-down { transform: translate(0, 0); }
+.sbs-tonearm-pivot {
+  position: absolute;
+  top: -6px;
+  right: 10px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--sbs-ink-dim);
+  z-index: 2;
+}
+.sbs-tonearm {
+  position: absolute;
+  top: -1px;
+  right: 15px;
+  width: 3px;
+  height: 60px;
+  background: var(--sbs-ink-dim);
+  border-radius: 2px;
+  transform-origin: top center;
+  transition: transform 0.4s ease;
+}
+
+.sbs-grid-single {
+  grid-template-columns: 1fr;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.sbs-pads {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--sbs-line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sbs-pads-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.sbs-pad-wrap {
+  position: relative;
+}
+.sbs-pad {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  background: var(--sbs-panel);
+  border: 1px solid var(--sbs-line);
+  color: var(--sbs-paper);
+  font-family: var(--sbs-font-display);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.sbs-pad:hover {
+  border-color: var(--sbs-amber);
+  color: var(--sbs-amber);
+}
+.sbs-pad-add {
+  color: var(--sbs-ink-dim);
+  border-style: dashed;
+}
+.sbs-pad-delete {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--sbs-rust);
+  color: var(--sbs-paper);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.sbs-pads-hint {
+  font-size: 11px;
+  color: var(--sbs-ink-dim);
+}
+.sbs-pad-wrap:hover .sbs-pad-delete { opacity: 1; }
+.sbs-trigger {
+  font-family: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--sbs-amber);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  font-size: inherit;
+}
+.sbs-trigger:hover { color: var(--sbs-paper); }
+
+.sbs-authoring {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--sbs-line);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.sbs-authoring-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sbs-marker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sbs-marker-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sbs-marker-time {
+  font-family: var(--sbs-font-mono);
+  font-size: 11px;
+  color: var(--sbs-amber);
+  min-width: 44px;
+}
+.sbs-marker-list input {
+  flex: 1;
+  background: var(--sbs-bg);
+  border: 1px solid var(--sbs-line);
+  color: var(--sbs-ink);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 3px;
+}
+.sbs-authoring-export {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sbs-authoring-json {
+  background: #100e0a;
+  border: 1px solid var(--sbs-line);
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 11px;
+  color: var(--sbs-ink-dim);
+  overflow-x: auto;
+  white-space: pre;
+  max-height: 220px;
+}
+
+@media (max-width: 640px) {
+  .sbs-grid { grid-template-columns: 1fr; }
+  .sbs-connector { flex-direction: row; padding: 10px 0; }
+}
+
+/* ---------------------------------------------------------------------------
+   On merging into index.css: the :root block above is genuinely page-wide
+   (reuse --sbs-amber etc. for headings/links elsewhere). The .sbs-* rules
+   below it are component-scoped and harmless to include globally, but if
+   your index.css grows large, consider splitting the :root tokens into
+   their own tokens.css that both index.css and this file @import — keeps
+   the component's own rules out of your main stylesheet's diff noise.
+--------------------------------------------------------------------------- */
