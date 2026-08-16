@@ -21,7 +21,7 @@ function generateBars(count, seed) {
 }
 
 function WaveformFiller({ flip = false }) {
-  const bars = useMemo(() => generateBars(60, flip ? 2.7 : 1.1), [flip]);
+  const bars = useMemo(() => generateBars(60, flip ? 4.5 : 0.6), [flip]);
   return (
     <svg viewBox="0 0 300 80" preserveAspectRatio="none" className="hero-wave-svg">
       {bars.map((h, i) => {
@@ -30,8 +30,8 @@ function WaveformFiller({ flip = false }) {
         const x = flip ? 300 - (i + 1) * w : i * w;
         // Fade toward the outer edge, away from the record, so the bars
         // read as trailing off rather than just stopping abruptly.
-        const distFromCenter = flip ? i / bars.length : 1 - i / bars.length;
-        const opacity = 0.25 + distFromCenter * 0.55;
+        const distFromCenter = 1 - (i / bars.length);
+        const opacity = 0.25 + (distFromCenter * 0.55);
         return (
           <rect
             key={i}
@@ -53,11 +53,11 @@ export default function SamplingHero({ children }) {
   return (
     <div className="sampling-hero">
       <div className="sampling-hero-row">
-        <div className="sampling-hero-wave"><WaveformFiller /></div>
+        <div className="sampling-hero-wave"><WaveformFiller flip={false} /></div>
         <div className="sbs-vinyl sampling-hero-vinyl sbs-vinyl-spin-slow">
           <div className="sbs-vinyl-label"><Disc3 size={22} strokeWidth={1.4} /></div>
         </div>
-        <div className="sampling-hero-wave"><WaveformFiller flip /></div>
+        <div className="sampling-hero-wave"><WaveformFiller flip={true} /></div>
       </div>
       {children && <p className="sampling-hero-blurb">{children}</p>}
     </div>

@@ -376,6 +376,7 @@
   color: var(--sbs-ink-dim);
 }
 .sbs-pad-wrap:hover .sbs-pad-delete { opacity: 1; }
+
 .sbs-trigger {
   font-family: inherit;
   background: none;
@@ -417,9 +418,15 @@
 }
 .sbs-marker-time {
   font-family: var(--sbs-font-mono);
-  font-size: 11px;
+  font-size: 8px;
   color: var(--sbs-amber);
+  text-decoration: underline dotted;
+  cursor: pointer;
+  text-underline-offset: 3px;
   min-width: 44px;
+}
+.sbs-marker-time:hover {
+  color: var(--sbs-paper)
 }
 .sbs-marker-list input {
   flex: 1;

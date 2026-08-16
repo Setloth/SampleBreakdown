@@ -33,7 +33,7 @@ export const playgroundLibrary = [
     clips: [
       { id: "pg-inst-1", title: "EDM Synth Loop", file: "audio/playground/instrumental/EDM-Loop-Synth.WAV" },
       { id: "pg-inst-2", title: "Groovy Bassline", file: "audio/playground/instrumental/groovy-low-bassline.WAV" },
-      { id: "pg-inst-3", title: "Stray", file: "audio/playground/instrumental/Stray - Astrud GilbertoR.WAV" },
+      { id: "pg-inst-3", title: "Stay", file: "audio/playground/instrumental/Stay - Astrud GilbertoR.WAV" },
       { id: "pg-inst-4", title: "Brass Loop", file: "audio/playground/instrumental/Brass_Loop_Futuristic.WAV" },
 
     ],
@@ -43,7 +43,7 @@ export const playgroundLibrary = [
     clips: [
       { id: "pg-song-1", title: "Adoro - Pearly Queen", file: "audio/playground/songs/Adoro - Pearly Queen.WAV" },
       { id: "pg-song-2", title: "Airing - The Black Fire ", file: "audio/playground/songs/BlackFire-Airing.WAV" },
-      { id: "pg-song-3", title: "I Know Myself - The Sylvers", file: "audio/playground/songs/I Know Myself - The Sylvers.WAV" },
+      { id: "pg-song-3", title: "I Know Myself - The Sylvers", file: "audio/playground/songs/I Know Myself-The Sylvers.WAV" },
       { id: "pg-song-4", title: "MacArthur Park", file: "audio/playground/songs/MacArthurPark.WAV" },
       { id: "pg-song-5", title: "Sinnerman - Nina Simone", file: "audio/playground/songs/Sinnerman Main Sample.WAV" },
     ],

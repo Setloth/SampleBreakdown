@@ -14,6 +14,7 @@ export default function Playground() {
         onSelect={setSelected}
       />
       <SampleBreakdown
+        loop={{editable: true, start: 0, end: null, enabled: false}}
         inFile={selected?.file}
         inTitle={selected?.title}
         single

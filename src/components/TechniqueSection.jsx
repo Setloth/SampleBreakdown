@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import './techniques.css'
 import SampleBreakdown from './SampleBreakdown';
+import { HistoryTracklist, NumberedSection } from './HistoryUI';
 
 // `study.writeup` is an array of paragraph strings — your own words, one
 // entry per <p>. `children` still works too, for the rare case study that
@@ -10,7 +11,7 @@ import SampleBreakdown from './SampleBreakdown';
 export function CaseStudy({ study, children }) {
   return (
     <div className="case-study">
-      <h3>{study.title} — {study.artist}{study.producer && ` (prod. ${study.producer})`}</h3>
+      <h3>{study.artist}{study.producer && ` (prod. ${study.producer})`}</h3>
 
       {study.writeup && study.writeup.map((para, i) => <p key={i}>{para}</p>)}
       {children}
@@ -36,7 +37,7 @@ export function CaseStudy({ study, children }) {
             inTitle={s.inTitle}
             outFile={s.outFile}
             outTitle={s.outTitle}
-            loop={s.loop}
+            loop={{...s.loop, editable: false}}
             markers={s.markers}
             timeMarkers={s.timeMarkers}
             initialZoom={s.initialZoom}
@@ -52,7 +53,17 @@ export default function TechniqueSection({ id, title, blurb, studies }) {
     <section id={id}>
       <h2>{title}</h2>
       <p>{blurb}</p>
-      {studies.map((study) => <CaseStudy key={study.slug} study={study} />)}
+
+      <HistoryTracklist>
+        {studies.map((study, i) => {
+          return (
+            <NumberedSection index={i + 1} title={study.title}>
+              <CaseStudy key={study.slug} study={study} />
+            </NumberedSection>
+          )
+})}
+      </HistoryTracklist>
+      
     </section>
   );
 }

@@ -144,13 +144,13 @@ function SamplePanel({
             {loopStartPct != null && (
               <div className="sbs-handle" style={{ left: `${loopStartPct}%` }}
                 onPointerDown={onHandlePointerDown("start")}>
-                <div className="sbs-handle-mark" />
+                {loop.editable && <div className="sbs-handle-mark" />}
               </div>
             )}
             {loopEndPct != null && (
               <div className="sbs-handle" style={{ left: `${loopEndPct}%` }}
                 onPointerDown={onHandlePointerDown("end")}>
-                <div className="sbs-handle-mark" />
+                {loop.editable && <div className="sbs-handle-mark" />}
               </div>
             )}
 
@@ -167,7 +167,7 @@ function SamplePanel({
                   onPointerDown={(e) => e.stopPropagation()}
                   onClick={(e) => { e.stopPropagation(); onPlayMarker(m.time); }}
                 >
-                  <MapPin size={12} />
+                  {m?.shortLabel ? m.shortLabel : <MapPin size={12} />}
                 </button>
               );
             })}
@@ -271,7 +271,7 @@ function RecordPanel({
           <input type="file" accept="audio/*" onChange={onUpload} hidden />
         </label>
       ) : (
-        <div className="sbs-controls sbs-controls-center">
+        <><div className="sbs-controls sbs-controls-center">
           <button className="sbs-btn sbs-btn-icon" onClick={onRestart} title="Restart" aria-label="Restart">
             <RotateCcw size={16} />
           </button>
@@ -283,22 +283,32 @@ function RecordPanel({
           >
             {trackPlaying ? <Pause size={16} /> : <Play size={16} />}
           </button>
-          {timeMarkers.map((mk) => (
-            <a
-              key={mk}
-              className="sbs-time-marker"
-              href={`#${mk}_${name}`}
-              onClick={(e) => {
-                e.preventDefault(); // this is a seek button, not real navigation
-                if (audioRef.current) audioRef.current.currentTime = mk;
-              }}
-            >
-              {formatTime(mk)}
-            </a>
-          ))}
+
           <span className="sbs-time">{formatTime(currentTime)} / {formatTime(duration)}</span>
         </div>
+          {timeMarkers && 
+          <div className="sbs-controls sbs-controls-center">
+            {timeMarkers.map((mk) => (
+              <button
+                type="button"
+
+                key={mk}
+                className="sbs-trigger"
+                // href={`#${mk}_${name}`}
+                onClick={(e) => {
+                  e.preventDefault(); // this is a seek button, not real navigation
+                  if (audioRef.current) audioRef.current.currentTime = mk;
+                }}
+              >
+                {formatTime(mk)}
+              </button>
+            ))}
+          </div>
+          }
+        </>
       )}
+        
+
       <audio ref={audioRef} src={src || undefined} hidden />
     </Panel>
   );
@@ -448,7 +458,9 @@ const SampleBreakdown = forwardRef(function SampleBreakdown(
     start: loopProp?.start ?? null,
     end: loopProp?.end ?? null,
     enabled: loopProp?.enabled ?? false,
+    editable: loopProp?.editable ?? false,
   });
+
   const [markerList, setMarkerList] = useState(markersProp);
 
   const [view, setView] = useState({ start: 0, end: 1 });
@@ -492,11 +504,12 @@ const SampleBreakdown = forwardRef(function SampleBreakdown(
       // positions from the previous track rather than showing them
       // against a new waveform. On the very first load, skip this so
       // any loop/markers passed in via props still seed correctly.
-      setLoop({ start: null, end: null, enabled: false });
+      setLoop({ start: null, end: null, enabled: false, editable: loop.editable });
       setMarkerList([]);
-      setView({ start: 0, end: 1 });
+      setView({ start: 0, end: null });
       setDuration(0);
       setPeaks(null);
+      setPlaying(false)
       initialZoomApplied.current = false;
     }
     loadFromUrl(inFile);
@@ -505,9 +518,14 @@ const SampleBreakdown = forwardRef(function SampleBreakdown(
   useEffect(() => { if (outFile) setOutSrc(outFile); }, [outFile]);
 
   useEffect(() => {
-    if (duration && loop.start == null) {
-      setLoop((l) => ({ ...l, start: duration * 0.3, end: duration * 0.5 }));
+    if (!duration) return;
+    if (loop.end == null || loop.start == null) {
+      setLoop((l) => ({ ...l, start: 0, end: duration - (1/222)}))
     }
+    // if (duration && loop.start == null) {
+    //   setLoop((l) => ({ ...l, start: duration * 0.3, end: duration * 0.5 }));
+    // }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration]);
 
@@ -529,6 +547,8 @@ const SampleBreakdown = forwardRef(function SampleBreakdown(
       const start = Math.max(0, (loop.start - pad) / duration);
       const end = Math.min(1, (loop.end + pad) / duration);
       setView({ start, end });
+    } else {
+      setView({start:0, end:duration})
     }
   }, [duration, loop.start, loop.end, initialZoom]);
 
@@ -579,7 +599,7 @@ const SampleBreakdown = forwardRef(function SampleBreakdown(
   // active loop rather than letting you jump forward only to get pulled
   // back into the old loop region a few seconds later.
   const playFrom = useCallback((t) => {
-    setLoop((l) => (l.enabled ? { ...l, enabled: false } : l));
+    // setLoop((l) => (l.enabled ? { ...l, enabled: false } : l));
     seekAndPlay(t);
   }, [seekAndPlay]);
 
@@ -592,7 +612,7 @@ const SampleBreakdown = forwardRef(function SampleBreakdown(
   // --- authoring-only marker editing --------------------------------------
   const addMarkerAtCue = useCallback(() => {
     const t = audioRef.current?.currentTime ?? 0;
-    setMarkerList((list) => [...list, { id: `m-${Date.now()}`, time: t, label: "" }]);
+    setMarkerList((list) => [...list, { id: list.length, time: t, label: "Marker "+list.length + 1, shortLabel: `${list.length + 1}` }]);
   }, []);
 
   const updateMarkerLabel = useCallback((markerId, label) => {
@@ -680,16 +700,23 @@ const SampleBreakdown = forwardRef(function SampleBreakdown(
       trackAudioRef.current?.pause();
       setPlaying(true);
     };
-    const onPause = () => setPlaying(false);
+    const onPause = () => {
+      setPlaying(false);
+    }
     const onTime = () => {
       setCurrentTime(el.currentTime);
-      if (loop.enabled && loop.end != null && el.currentTime >= loop.end) {
+      if (loop.enabled && loop.end != null && el.currentTime >= (loop.end - (1/220))) {
         el.currentTime = loop.start;
       }
     };
     el.addEventListener("play", onPlay);
     el.addEventListener("pause", onPause);
     el.addEventListener("timeupdate", onTime);
+    el.addEventListener("ended", () => {
+      if (loop.enabled && loop.end != null && Math.abs(loop.end - duration) < (1/220)) {
+        seekAndPlay(loop.start)
+      }
+    })
     return () => {
       el.removeEventListener("play", onPlay);
       el.removeEventListener("pause", onPause);
@@ -783,7 +810,7 @@ const SampleBreakdown = forwardRef(function SampleBreakdown(
       setView({ start: newStart, end: newStart + span });
     } else {
       const t = fracToTime(fracFromClientX(e.clientX));
-      setLoop((l) => {
+      if (loop.editable) setLoop((l) => {
         if (dragging === "start") return { ...l, start: Math.min(t, (l.end ?? duration) - 0.05) };
         return { ...l, end: Math.max(t, (l.start ?? 0) + 0.05) };
       });

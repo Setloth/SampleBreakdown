@@ -48,10 +48,11 @@ export function TechTimeline({ steps }) {
 
 // Small helper for the [IMAGE] placeholders in your history text — gives
 // you consistent captioning/attribution styling for sourced photos.
-export function HistoryFigure({ src, alt, caption, sourceHref, sourceLabel }) {
+export function HistoryFigure({ src, alt, caption, sourceHref, sourceLabel, children }) {
   return (
     <figure className="history-figure">
-      <img src={src} alt={alt} />
+      {children ? children : <img src={src} alt={alt} />}
+      
       {(caption || sourceHref) && (
         <figcaption>
           {caption}{caption && sourceHref && " — "}

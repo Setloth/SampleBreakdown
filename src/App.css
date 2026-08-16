@@ -7,14 +7,13 @@
   padding: 60px 20px;
   text-align: left;
 }
-#techniques,
-#examples-playground {
+
+.section-border {
   border-top: 1px solid var(--border);
 }
 
-#history > h1,
-#techniques > h1,
-#examples-playground > h1 {
+
+.text-section > h1 {
   font-size: 40px;
   margin: 0 0 8px;
 }
@@ -44,6 +43,20 @@
   padding: 2px 0 2px 20px;
   border-left: 3px solid var(--sbs-amber);
 }
+
+q {
+  font-style: italic;
+  color: var(--sbs-paper);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.inline {
+  border-left: 3px solid var(--sbs-amber);
+  color: var(--sbs-paper);
+  padding-left: 5px;
+}
+
 .pull-quote svg {
   flex-shrink: 0;
   color: var(--sbs-amber);
